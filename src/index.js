@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import Landing from './components/landing';
 
+import './App.scss';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
