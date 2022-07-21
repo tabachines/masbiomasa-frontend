@@ -6,6 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import Landing from './components/landing';
+import ZonePicker from './components/zonePicker';
 
 import './index.scss';
 
@@ -15,6 +16,7 @@ root.render(
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/zone-picker" element={<ZonePicker />} />
     </Routes>
     </BrowserRouter>
   </React.StrictMode>

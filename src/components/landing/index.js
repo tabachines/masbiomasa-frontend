@@ -3,17 +3,20 @@ import './index.css';
 
 import Button from 'react-bootstrap/Button';
 import { LinkContainer } from 'react-router-bootstrap';
+import { Container } from 'react-bootstrap';
 
 function Landing() {
     return (
-        <div className="App">
+        <Container className="p-3">
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="header">Cálculo de captura de carbono</h1>
-            <LinkContainer to="/">
+            <LinkContainer to="/zone-picker">
             <Button>Iniciar</Button>
             </LinkContainer>
-        </div>
+        </Container>
     );
 }
+
+
 
 export default Landing;
