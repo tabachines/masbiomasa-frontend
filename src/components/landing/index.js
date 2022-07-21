@@ -10,7 +10,7 @@ function Landing() {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="header">Cálculo de captura de carbono</h1>
             <LinkContainer to="/">
-                <Button>Iniciar</Button>
+            <Button>Iniciar</Button>
             </LinkContainer>
         </div>
     );
