@@ -38,6 +38,7 @@ function Selector(props) {
             <Tabs
                 defaultActiveKey="zone"
                 id="uncontrolled-tab-example"
+                onSelect={key => props.setTab(key)}
                 className="mb-3 justify-content-center"
             >
                 <Tab eventKey="zone" title="Elige una zona">
@@ -86,38 +87,53 @@ const mapBounds = [[
 function ZonePicker() {
     const [geojsonKey, setGeojsonKey] = useState(null);
     const [selectedZone, setSelectedZone] = useState(null);
+    const [drawControlEnabled, enableDrawControl] = useState(false);
 
     const handleZoneClick = (feature, layer, key) => {
         layer.on('click', () => {
-            setSelectedZone(feature.properties[infoKey[key]]);
+            setSelectedZone(
+                <Zone name={feature.properties[infoKey[key]]} />
+            );
         })
+    }
+
+    const setTab = (key) => {
+        setSelectedZone(null);
+        setGeojsonKey(null);
+        if (key === "draw") {
+            enableDrawControl(true);
+        } else {
+            enableDrawControl(false);
+        }
     }
 
     return (
         <Container className="p-3 text-center">
             <h3 className="header">Delimita tu zona:</h3>
-            <Selector setGeojsonData={key => setGeojsonKey(key)} />
+            <Selector setGeojsonData={key => setGeojsonKey(key)} setTab={(k) => setTab(k)} />
             <Container className="p-3 zone-picker">
                 <MapContainer center={[20.7715230, -103.584594]} zoom={7} bounds={mapBounds}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <FeatureGroup>
-                        <EditControl
-                            position='topright'
-                            onEdited={() => { }}
-                            onCreated={() => { }}
-                            onDeleted={() => { }}
-                            draw={{
-                                rectangle: false,
-                                polyline: false,
-                                circle: false,
-                                marker: false,
-                                circlemarker: false
-                            }}
-                        />
-                    </FeatureGroup>
+                    {drawControlEnabled &&
+                        <FeatureGroup>
+                            <EditControl
+                                position='topright'
+                                onEdited={() => { }}
+                                onCreated={() => setSelectedZone(<Zone name="Zona personalizada" />)}
+                                onDeleted={() => { }}
+                                draw={{
+                                    rectangle: false,
+                                    polyline: false,
+                                    circle: false,
+                                    marker: false,
+                                    circlemarker: false
+                                }}
+                            />
+                        </FeatureGroup>
+                    }
                     {
                         geojsonKey &&
                         <GeoJSON
@@ -131,7 +147,7 @@ function ZonePicker() {
             </Container>
             {selectedZone &&
                 <Stack gap={3} className="text-center justify-content-center align-items-center">
-                    <Zone name={selectedZone} />
+                    {selectedZone}
                     <LinkContainer to="/zone-picker">
                         <Button className="w-25">Continuar</Button>
                     </LinkContainer>
