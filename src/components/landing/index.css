@@ -7,3 +7,7 @@
   pointer-events: none;
   margin: 2em;
 }
+
+.user-icon {
+  height: 8em;
+}
