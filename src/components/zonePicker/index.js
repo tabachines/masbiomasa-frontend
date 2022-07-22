@@ -14,11 +14,14 @@ import "leaflet-draw/dist/leaflet.draw.css"
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import ejidos from './ejidos.geojson';
-import cuencas from './cuencas.geojson';
-import municipios from './municipios.geojson';
+import ejidos from './geojsons/ejidos.json';
+import cuencas from './geojsons/cuencas.json';
+import municipios from './geojsons/municipios.json';
 
 import { useState } from "react";
+
+console.log(ejidos)
+
 
 const geojsons = {
     "ejidos": ejidos,
@@ -75,7 +78,13 @@ const Zone = props => (
     </Card>
 )
 
-
+const mapBounds = [[
+    18.6670631919266,
+    -106.07299804687499
+], [
+    23.120153621695614,
+    -101.48071289062499
+]];
 
 function ZonePicker() {
     const [geojsonKey, setGeojsonKey] = useState(null);
@@ -92,7 +101,7 @@ function ZonePicker() {
             <h3 className="header">Delimita tu zona:</h3>
             <Selector setGeojsonData={key => setGeojsonKey(key)} />
             <Container className="p-3 zone-picker">
-                <MapContainer center={[22.878, -106.260]} zoom={6}>
+                <MapContainer center={[20.7715230, -103.584594]} zoom={7} bounds={mapBounds}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
