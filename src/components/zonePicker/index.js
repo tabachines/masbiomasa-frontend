@@ -34,7 +34,6 @@ function Selector(props) {
                     </Stack>
                 </Tab>
                 <Tab eventKey="profile" title="Sube un archivo">
-
                 </Tab>
             </Tabs>
             <p className="mt-4">O traza directamente en el mapa:</p>
@@ -48,6 +47,13 @@ const purpleOptions = { color: 'purple' }
 
 function ZonePicker() {
     const [geojsonData, setGeojsonData] = useState(null);
+    const [zoneInfo, setZoneInfo] = useState(null);
+
+    const handleZoneClick = (feature, layer) => {
+        layer.on('click', () => {
+            setZoneInfo(feature.properties.NombreNucl) 
+        })
+    }
 
     return (
         <Container className="p-3 text-center">
@@ -74,9 +80,10 @@ function ZonePicker() {
                             }}
                         />
                     </FeatureGroup>
-                    { geojsonData && <GeoJSON pathOptions={purpleOptions} data={geojsonData} />}
+                    { geojsonData && <GeoJSON onEachFeature={(f,l) => handleZoneClick(f,l)} pathOptions={purpleOptions} data={geojsonData} />}
                 </MapContainer>
             </Container>
+            <h1>{zoneInfo}</h1>
             <LinkContainer to="/zone-picker">
                 <Button>Continuar</Button>
             </LinkContainer>
