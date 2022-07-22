@@ -7,7 +7,7 @@ import { Container } from 'react-bootstrap';
 
 function Landing() {
     return (
-        <Container className="p-3">
+        <Container className="p-3 text-center">
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="header">Cálculo de captura de carbono</h1>
             <LinkContainer to="/zone-picker">
