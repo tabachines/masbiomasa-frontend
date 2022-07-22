@@ -1,4 +1,4 @@
-import { Button, Container, DropdownButton, Dropdown, Stack } from "react-bootstrap";
+import { Button, Container, Stack } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 import { MapContainer } from 'react-leaflet/MapContainer'
@@ -14,12 +14,10 @@ import "leaflet-draw/dist/leaflet.draw.css"
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import ejido from './ejido.json';
+import ejidos from './ejidos.json';
+import { useState } from "react";    
 
-console.log(ejido)
-
-
-function Selector() {
+function Selector(props) {
     return (
         <Container className="w-75 text-centered">
             <Tabs
@@ -29,18 +27,10 @@ function Selector() {
             >
                 <Tab eventKey="home" title="Elige una zona">
                     <Stack direction="horizontal" gap={3}  className="justify-content-center">
-                        <DropdownButton id="dropdown-basic-button" title="Por ejido">
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                        </DropdownButton>
-                        <DropdownButton id="dropdown-basic-button" title="Por municipio">
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                        </DropdownButton>
-                        <DropdownButton id="dropdown-basic-button" title="Por cuenca">
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                        </DropdownButton>
+                        <Button onClick={() => props.setGeojsonData(ejidos)} variant="primary">Por ejido</Button>
+                        <Button onClick={() => props.setGeojsonData(null)} variant="primary">Por municipio</Button>
+                        <Button onClick={() => props.setGeojsonData(null)} variant="primary">Por cuenca</Button>
+                    
                     </Stack>
                 </Tab>
                 <Tab eventKey="profile" title="Sube un archivo">
@@ -52,15 +42,17 @@ function Selector() {
     );
 }
 
-const purpleOptions = { color: 'red' }
+const purpleOptions = { color: 'purple' }
 
 
 
 function ZonePicker() {
+    const [geojsonData, setGeojsonData] = useState(null);
+
     return (
         <Container className="p-3 text-center">
             <h3 className="header">Delimita tu zona:</h3>
-            <Selector />
+            <Selector setGeojsonData={data => setGeojsonData(data)} />
             <Container className="p-3 zone-picker">
                 <MapContainer center={[22.878, -106.260]} zoom={6} scrollWheelZoom={false}>
                     <TileLayer
@@ -82,7 +74,7 @@ function ZonePicker() {
                             }}
                         />
                     </FeatureGroup>
-                    <GeoJSON pathOptions={purpleOptions}  key="asasd" data={ejido} />
+                    { geojsonData && <GeoJSON pathOptions={purpleOptions} data={geojsonData} />}
                 </MapContainer>
             </Container>
             <LinkContainer to="/zone-picker">
