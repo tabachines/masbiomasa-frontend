@@ -1,4 +1,4 @@
-import { Button, Container, Stack } from "react-bootstrap";
+import { Button, Container, Stack, Card } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 import { MapContainer } from 'react-leaflet/MapContainer'
@@ -14,53 +14,85 @@ import "leaflet-draw/dist/leaflet.draw.css"
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import ejidos from './ejidos.json';
-import { useState } from "react";    
+import ejidos from './ejidos.geojson';
+import cuencas from './cuencas.geojson';
+import municipios from './municipios.geojson';
+
+import { useState } from "react";
+
+const geojsons = {
+    "ejidos": ejidos,
+    "cuencas": cuencas,
+    "municipios": municipios
+}
+
+const infoKey = {
+    "cuencas": "nom_cuenca",
+    "ejidos": "NombreNucl",
+    "municipios": "NOMGEO"
+}
 
 function Selector(props) {
     return (
-        <Container className="w-75 text-centered">
+        <Container className="text-centered">
             <Tabs
-                defaultActiveKey="profile"
+                defaultActiveKey="zone"
                 id="uncontrolled-tab-example"
                 className="mb-3 justify-content-center"
             >
-                <Tab eventKey="home" title="Elige una zona">
-                    <Stack direction="horizontal" gap={3}  className="justify-content-center">
-                        <Button onClick={() => props.setGeojsonData(ejidos)} variant="primary">Por ejido</Button>
-                        <Button onClick={() => props.setGeojsonData(null)} variant="primary">Por municipio</Button>
-                        <Button onClick={() => props.setGeojsonData(null)} variant="primary">Por cuenca</Button>
-                    
+                <Tab eventKey="zone" title="Elige una zona">
+                    <Stack direction="horizontal" gap={3} className="tab-content justify-content-center">
+                        <Button onClick={() => props.setGeojsonData("ejidos")} variant="primary">Por ejido</Button>
+                        <Button onClick={() => props.setGeojsonData("municipios")} variant="primary">Por municipio</Button>
+                        <Button onClick={() => props.setGeojsonData("cuencas")} variant="primary">Por cuenca</Button>
                     </Stack>
                 </Tab>
-                <Tab eventKey="profile" title="Sube un archivo">
+                <Tab eventKey="file" title="Sube un archivo">
+                    <Stack className="tab-content file-drop-container justify-content-center">
+                        <p className="m-0 text-secondary">{`Arrastra hasta aquí tu archivo (.shp, .geojson)`}</p>
+                    </Stack>
+                </Tab>
+                <Tab eventKey="draw" title="Traza directamente en el mapa">
+                    <Stack className="tab-content justify-content-center">
+                    </Stack>
                 </Tab>
             </Tabs>
-            <p className="mt-4">O traza directamente en el mapa:</p>
         </Container>
     );
 }
 
-const purpleOptions = { color: 'purple' }
+const colorOptions = { color: 'green' }
+
+
+const Zone = props => (
+    <Card style={{ width: '18rem' }}>
+        <Card.Body>
+            <Card.Title>{props.name}</Card.Title>
+            <Card.Text>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </Card.Text>
+        </Card.Body>
+    </Card>
+)
 
 
 
 function ZonePicker() {
-    const [geojsonData, setGeojsonData] = useState(null);
-    const [zoneInfo, setZoneInfo] = useState(null);
+    const [geojsonKey, setGeojsonKey] = useState(null);
+    const [selectedZone, setSelectedZone] = useState(null);
 
-    const handleZoneClick = (feature, layer) => {
+    const handleZoneClick = (feature, layer, key) => {
         layer.on('click', () => {
-            setZoneInfo(feature.properties.NombreNucl) 
+            setSelectedZone(feature.properties[infoKey[key]]);
         })
     }
 
     return (
         <Container className="p-3 text-center">
             <h3 className="header">Delimita tu zona:</h3>
-            <Selector setGeojsonData={data => setGeojsonData(data)} />
+            <Selector setGeojsonData={key => setGeojsonKey(key)} />
             <Container className="p-3 zone-picker">
-                <MapContainer center={[22.878, -106.260]} zoom={6} scrollWheelZoom={false}>
+                <MapContainer center={[22.878, -106.260]} zoom={6}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -80,13 +112,25 @@ function ZonePicker() {
                             }}
                         />
                     </FeatureGroup>
-                    { geojsonData && <GeoJSON onEachFeature={(f,l) => handleZoneClick(f,l)} pathOptions={purpleOptions} data={geojsonData} />}
+                    {
+                        geojsonKey &&
+                        <GeoJSON
+                            key={geojsonKey}
+                            onEachFeature={(f, l) => handleZoneClick(f, l, geojsonKey)}
+                            pathOptions={colorOptions}
+                            data={geojsons[geojsonKey]}
+                        />
+                    }
                 </MapContainer>
             </Container>
-            <h1>{zoneInfo}</h1>
-            <LinkContainer to="/zone-picker">
-                <Button>Continuar</Button>
-            </LinkContainer>
+            {selectedZone &&
+                <Stack gap={3} className="text-center justify-content-center align-items-center">
+                    <Zone name={selectedZone} />
+                    <LinkContainer to="/zone-picker">
+                        <Button className="w-25">Continuar</Button>
+                    </LinkContainer>
+                </Stack>
+            }
         </Container>
     );
 }
