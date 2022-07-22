@@ -1,4 +1,14 @@
-.leaflet-container {
-    height: 600px;
-    width: 800px;
+.zone-picker {
+    display: flex;
+    justify-content: center;
 }
+
+.leaflet-container {
+    height: 400px;
+    width: 600px;
+}
+
+.sr-only {
+    display: none;
+}
+  
