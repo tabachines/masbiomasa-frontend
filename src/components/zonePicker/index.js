@@ -20,9 +20,6 @@ import municipios from './geojsons/municipios.json';
 
 import { useState } from "react";
 
-console.log(ejidos)
-
-
 const geojsons = {
     "ejidos": ejidos,
     "cuencas": cuencas,
