@@ -148,7 +148,7 @@ function ZonePicker() {
             {selectedZone &&
                 <Stack gap={3} className="text-center justify-content-center align-items-center">
                     {selectedZone}
-                    <LinkContainer to="/zone-picker">
+                    <LinkContainer to="/land-elegibility">
                         <Button className="w-25">Continuar</Button>
                     </LinkContainer>
                 </Stack>
