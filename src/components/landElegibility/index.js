@@ -16,18 +16,31 @@ import { useState } from "react";
 import coniferas from './lands/bosque-coniferas.jpg';
 import pastizal from './lands/pastizal.jpg';
 
+// import icons from ./icons
+import co2 from './icons/co2.png';
+import curve from './icons/curve.png';
+import land from './icons/land.png';
+import layers from './icons/layers.png';
+
+
 const vegetations = [
     {
         "key": 1,
         "name": "Bosque de coníferas",
         "ndvi": (0.82, 0.83),
         "image": coniferas,
+        "co2": 144,
+        "percentage": 37,
+        "probability": 37
     },
     {
         "key": 2,
         "name": "Pastizal",
         "ndvi": (0.34, 0.41),
         "image": pastizal,
+        "co2": 144,
+        "percentage": 12,
+        "probability": 37
     },
 ]
 
@@ -46,8 +59,27 @@ const LocationMarker = props => {
     )
 }
 
+const MetricCard = props => {
+    const { label, value, icon, suffix } = props;
+    return (
+        <Stack direction="horizontal" className="align-items-center w-50 align-self-center" gap={2}>
+            <img src={icon} className="icon m-0" />
+            <p className="m-0">{label}</p>
+            <h5 className="m-0">{value}{suffix}</h5>
+        </Stack>
+    )
+}
+
 const Info = props => {
-    const {info, loader} = props;
+    const { info, loader } = props;
+
+    const metrics = [
+        { "key": "ndvi", "label": "NDVI", "icon": layers, "suffix": "" },
+        { "key": "co2", "label": "CO2", "icon": co2, "suffix": " ton" },
+        { "key": "probability", "label": "Probabilidad", "icon": curve, "suffix": "%" },
+        { "key": "percentage", "label": "Porcentaje en tu zona", "icon": land, "suffix": "%" },
+    ]
+
     if (loader) {
         return (
             <Spinner animation="border" variant="primary" />
@@ -57,10 +89,16 @@ const Info = props => {
         return <p>Da click en un área de tu zona para ver los detalles</p>
     }
     return (
-        <Stack key={info.key}>
+        <Stack key={info.key} className="align-items-center">
             <h4 className="mt-3">{info.name}</h4>
-            <img src={info.image} className="img-fluid" />
-            <p>{info.ndvi}</p>
+            <img src={info.image} className="img-fluid w-50" />
+            <Stack gap={3} className="mt-3">
+                {metrics.map(metric => (
+                    <MetricCard
+                        key={metric.key} label={metric.label} value={info[metric.key]} icon={metric.icon}
+                        suffix={metric.suffix} />
+                ))}
+            </Stack>
         </Stack>
     )
 }
@@ -102,7 +140,7 @@ function LandElegibility() {
                         <LocationMarker position={marker} setPosition={(p) => getInfo(p)} />
                         <LayersControl position="topright" >
                             <LayersControl.Overlay checked name="NDVI">
-                                <ImageOverlay url={ndvi} bounds={imageLatLong} opacity={0.8} />
+                                <ImageOverlay url={ndvi} bounds={imageLatLong} opacity={0.3} />
                             </LayersControl.Overlay>
                             <LayersControl.Overlay name="Polígono">
                                 <GeoJSON
