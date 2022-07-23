@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/masbiomasa-frontend/static/css/main.4bb8eba5.css",
-    "main.js": "/masbiomasa-frontend/static/js/main.ffc2b216.js",
+    "main.js": "/masbiomasa-frontend/static/js/main.4f23e5d7.js",
     "static/media/picture.png": "/masbiomasa-frontend/static/media/picture.43e85eaeb66f529c716c.png",
     "static/media/ndvi.png": "/masbiomasa-frontend/static/media/ndvi.3b051004bd66d223288d.png",
     "static/media/coberturas.png": "/masbiomasa-frontend/static/media/coberturas.3dc010af5ffafa40a3c2.png",
@@ -20,10 +20,10 @@
     "static/media/spritesheet.svg": "/masbiomasa-frontend/static/media/spritesheet.a4e0eb7ad904a4858361.svg",
     "index.html": "/masbiomasa-frontend/index.html",
     "main.4bb8eba5.css.map": "/masbiomasa-frontend/static/css/main.4bb8eba5.css.map",
-    "main.ffc2b216.js.map": "/masbiomasa-frontend/static/js/main.ffc2b216.js.map"
+    "main.4f23e5d7.js.map": "/masbiomasa-frontend/static/js/main.4f23e5d7.js.map"
   },
   "entrypoints": [
     "static/css/main.4bb8eba5.css",
-    "static/js/main.ffc2b216.js"
+    "static/js/main.4f23e5d7.js"
   ]
 }
