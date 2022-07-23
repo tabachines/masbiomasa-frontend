@@ -14,9 +14,9 @@ import "leaflet-draw/dist/leaflet.draw.css"
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import ejidos from './geojsons/ejidos.json';
-import cuencas from './geojsons/cuencas.json';
-import municipios from './geojsons/municipios.json';
+// import ejidos from './geojsons/ejidos.json';
+// import cuencas from './geojsons/cuencas.json';
+// import municipios from './geojsons/municipios.json';
 
 import { useState } from "react";
 
