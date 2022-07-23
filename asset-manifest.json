@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/masbiomasa-frontend/static/css/main.4bb8eba5.css",
-    "main.js": "/masbiomasa-frontend/static/js/main.81006d15.js",
+    "main.css": "/masbiomasa-frontend/static/css/main.c36b57eb.css",
+    "main.js": "/masbiomasa-frontend/static/js/main.53d18bba.js",
     "static/media/picture.png": "/masbiomasa-frontend/static/media/picture.43e85eaeb66f529c716c.png",
     "static/media/ndvi.png": "/masbiomasa-frontend/static/media/ndvi.3b051004bd66d223288d.png",
     "static/media/coberturas.png": "/masbiomasa-frontend/static/media/coberturas.3dc010af5ffafa40a3c2.png",
@@ -19,11 +19,11 @@
     "static/media/layers.png": "/masbiomasa-frontend/static/media/layers.c1517496798be29efbdf.png",
     "static/media/spritesheet.svg": "/masbiomasa-frontend/static/media/spritesheet.a4e0eb7ad904a4858361.svg",
     "index.html": "/masbiomasa-frontend/index.html",
-    "main.4bb8eba5.css.map": "/masbiomasa-frontend/static/css/main.4bb8eba5.css.map",
-    "main.81006d15.js.map": "/masbiomasa-frontend/static/js/main.81006d15.js.map"
+    "main.c36b57eb.css.map": "/masbiomasa-frontend/static/css/main.c36b57eb.css.map",
+    "main.53d18bba.js.map": "/masbiomasa-frontend/static/js/main.53d18bba.js.map"
   },
   "entrypoints": [
-    "static/css/main.4bb8eba5.css",
-    "static/js/main.81006d15.js"
+    "static/css/main.c36b57eb.css",
+    "static/js/main.53d18bba.js"
   ]
 }
