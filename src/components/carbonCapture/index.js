@@ -233,21 +233,21 @@ const getCaptureData = () => {
 
 function CarbonCapture() {
 
-    // const [loader, setLoader] = useState("Estimando captura de carbono...");
+    const [loader, setLoader] = useState("Estimando captura de carbono...");
     const [marker, setMarker] = useState(null);
     const [info, setInfo] = useState(null);
     const [infoLoader, setInfoLoader] = useState(false);
     const [message, setMessage] = useState(null);
     const [showForm, setShowForm] = useState(false);
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setLoader(false);
-    //     }, 5000);
-    //     setTimeout(() => {
-    //         setMessage(true);
-    //     }, 6000);
-    // }, [])
+    useEffect(() => {
+        setTimeout(() => {
+            setLoader(false);
+        }, 5000);
+        setTimeout(() => {
+            setMessage(true);
+        }, 6000);
+    }, [])
 
     const getInfo = coords => {
         setMarker(coords);
@@ -258,14 +258,14 @@ function CarbonCapture() {
         }, 2000)
     }
 
-    // if (loader) {
-    //     return (
-    //         <Stack className="general-loader justify-content-center align-items-center">
-    //             <h3 className="mb-3 text-primary">{loader}</h3>
-    //             <Spinner animation="border" variant="primary" />
-    //         </Stack>
-    //     )
-    // }
+    if (loader) {
+        return (
+            <Stack className="general-loader justify-content-center align-items-center">
+                <h3 className="mb-3 text-primary">{loader}</h3>
+                <Spinner animation="border" variant="primary" />
+            </Stack>
+        )
+    }
 
     return (
         <Container className="m-3 text-center land-elegibility">
