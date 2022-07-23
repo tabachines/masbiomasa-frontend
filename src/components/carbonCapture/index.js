@@ -137,7 +137,7 @@ const HeaderCard = props => {
 const MetricCard = props => {
     const { label, value, icon, suffix } = props;
     return (
-        <Stack direction="horizontal" className="align-items-center w-25 align-self-center" gap={2}>
+        <Stack direction="horizontal" className="align-self-center" gap={2}>
             <img src={icon} className="icon m-0" />
             <p className="m-0">{label}</p>
             <h5 className="m-0">{value}{suffix}</h5>
@@ -164,65 +164,63 @@ const Info = props => {
         return <p>Da click en un área de tu zona para ver los detalles</p>
     }
     return (
-        <Stack key={info.key} className="align-items-center">
-            <h4 className="mt-3">{info.name}</h4>
-            <img src={info.image} className="img-fluid w-50" />
-            <Stack gap={3} className="mt-3">
-                {metrics.map(metric => (
-                    <MetricCard
-                        key={metric.key} label={metric.label} value={info[metric.key]} icon={metric.icon}
-                        suffix={metric.suffix} />
-                ))}
-            </Stack>
-
+        <Stack gap={3} className="m-3 justify-content-start align-items-center">
+            {metrics.map(metric => (
+                <MetricCard
+                    key={metric.key} label={metric.label} value={info[metric.key]} icon={metric.icon}
+                    suffix={metric.suffix} />
+            ))}
+            <div className="justify-self-end">
+                <p className="m-0 informa">Referencia: Ecuaciones IPCC 2019 y PFM 2022</p>
+            </div>
         </Stack>
     )
 }
 
 function UserForm() {
     return (
-      <Form>
-        <Form.Group className="mb-3">
-          <Form.Label>Nombre</Form.Label>
-          <Form.Control type="name" />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Correo</Form.Label>
-          <Form.Control type="email" />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Tipo de propiedad de la tierra</Form.Label>
-          <Form.Control type="tipo" />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Superficie en hectáreas</Form.Label>
-          <Form.Control type="superficie" />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Principal uso de la tierra</Form.Label>
-          <Form.Control type="uso" />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Principal uso de la tierra</Form.Label>
-          <Form.Control type="uso" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Estoy interesado en el mercado de bonos de carbono" />
-        </Form.Group>
-        <Form.Select aria-label="Default select example">
-            <option>Selecciona</option>
-            <option value="1">Sistemas agroforestales</option>
-            <option value="2">Reforestación/aforestación</option>
-            <option value="3">Manejo forestal mejorado (actividades que aumenten la rotación, vigor o acervo de carbono)</option>
-            <option value="4">Bosques urbanos</option>
-            <option value="5">Sistema silvo-pastoril</option>
-        </Form.Select>
-        <Button variant="primary" type="submit">
-          Enviar datos
-        </Button>
-      </Form>
+        <Form>
+            <Form.Group className="mb-3">
+                <Form.Label>Nombre</Form.Label>
+                <Form.Control type="name" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Correo</Form.Label>
+                <Form.Control type="email" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Tipo de propiedad de la tierra</Form.Label>
+                <Form.Control type="tipo" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Superficie en hectáreas</Form.Label>
+                <Form.Control type="superficie" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Principal uso de la tierra</Form.Label>
+                <Form.Control type="uso" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Principal uso de la tierra</Form.Label>
+                <Form.Control type="uso" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Estoy interesado en el mercado de bonos de carbono" />
+            </Form.Group>
+            <Form.Select aria-label="Default select example">
+                <option>Selecciona</option>
+                <option value="1">Sistemas agroforestales</option>
+                <option value="2">Reforestación/aforestación</option>
+                <option value="3">Manejo forestal mejorado (actividades que aumenten la rotación, vigor o acervo de carbono)</option>
+                <option value="4">Bosques urbanos</option>
+                <option value="5">Sistema silvo-pastoril</option>
+            </Form.Select>
+            <Button className="mt-3" variant="primary" type="submit">
+                Enviar datos
+            </Button>
+        </Form>
     );
-  }
+}
 
 let infoKey = -1;
 const getCaptureData = () => {
@@ -235,21 +233,21 @@ const getCaptureData = () => {
 
 function CarbonCapture() {
 
-    const [loader, setLoader] = useState("Estimando captura de carbono...");
+    // const [loader, setLoader] = useState("Estimando captura de carbono...");
     const [marker, setMarker] = useState(null);
     const [info, setInfo] = useState(null);
     const [infoLoader, setInfoLoader] = useState(false);
     const [message, setMessage] = useState(null);
     const [showForm, setShowForm] = useState(false);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoader(false);
-        }, 5000);
-        setTimeout(() => {
-            setMessage(true);
-        }, 6000);
-    }, [])
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setLoader(false);
+    //     }, 5000);
+    //     setTimeout(() => {
+    //         setMessage(true);
+    //     }, 6000);
+    // }, [])
 
     const getInfo = coords => {
         setMarker(coords);
@@ -260,14 +258,14 @@ function CarbonCapture() {
         }, 2000)
     }
 
-    if (loader) {
-        return (
-            <Stack className="general-loader justify-content-center align-items-center">
-                <h3 className="mb-3 text-primary">{loader}</h3>
-                <Spinner animation="border" variant="primary" />
-            </Stack>
-        )
-    }
+    // if (loader) {
+    //     return (
+    //         <Stack className="general-loader justify-content-center align-items-center">
+    //             <h3 className="mb-3 text-primary">{loader}</h3>
+    //             <Spinner animation="border" variant="primary" />
+    //         </Stack>
+    //     )
+    // }
 
     return (
         <Container className="m-3 text-center land-elegibility">
@@ -280,7 +278,7 @@ function CarbonCapture() {
                 </Alert>
             }
             <Modal show={showForm} onHide={() => setShowForm(false)}>
-                <Modal.Body><UserForm/></Modal.Body>
+                <Modal.Body><UserForm /></Modal.Body>
             </Modal>
             <h3 className="header">Captura de Carbono estimada</h3>
             <Stack gap={3} className="justify-content-center" direction="horizontal">
@@ -312,6 +310,9 @@ function CarbonCapture() {
                         </Stack>
                     </Card>
                 </Stack>
+            </Stack>
+            <Stack gap={3} className="text-center justify-content-center align-items-center">
+                <Button className="w-25">Descargar datos (.tif)</Button>
             </Stack>
         </Container>
     );
