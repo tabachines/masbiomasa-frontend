@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Card, Spinner } from "react-bootstrap";
+import { Button, Container, Stack, Card, Spinner, Alert } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 import { MapContainer } from 'react-leaflet/MapContainer'
@@ -9,9 +9,7 @@ import { LayersControl } from "react-leaflet";
 
 import "./index.scss";
 
-import ndvi from './ndvi.png';
 import feature from './feature.json';
-import picture from './picture.png';
 import { useEffect, useState } from "react";
 
 import coniferas from './lands/bosque-coniferas.jpg';
@@ -127,30 +125,18 @@ const getVegetation = () => {
     return vegetations[infoKey];
 }
 
-const loaderMessages = [
-    "Obteniendo imágenes satelitaes ...",
-    "Calculando índice de vegetación ...",
-]
+function CarbonCapture() {
 
-function LandElegibility() {
-
-    const [loader, setLoader] = useState(loaderMessages[0]);
+    const [loader, setLoader] = useState("Estimando captura de carbono...");
     const [marker, setMarker] = useState(null);
     const [info, setInfo] = useState(null);
     const [infoLoader, setInfoLoader] = useState(false);
 
     useEffect(() => {
-        const wait = 1500;
-        for (let i = 0; i < loaderMessages.length; i++) {
-            setTimeout(() => {
-                setLoader(loaderMessages[i]);
-            }, wait * i);
-        }
         setTimeout(() => {
             setLoader(false);
-        }, (loaderMessages.length + 1) * wait)
+        }, 5000);
     }, [])
-
 
     const getInfo = coords => {
         setMarker(coords);
@@ -158,7 +144,7 @@ function LandElegibility() {
         setTimeout(() => {
             setInfoLoader(false)
             setInfo(getVegetation())
-        }, 1500)
+        }, 2000)
     }
 
     if (loader) {
@@ -172,7 +158,16 @@ function LandElegibility() {
 
     return (
         <Container className="m-3 text-center land-elegibility">
-            <h3 className="header">Detalles de tu zona:</h3>
+            <Alert key="success" variant="success">
+                Felicidades, tu zona es eligible para el uso de carbono
+            </Alert>
+            <h3 className="header">Captura de Carbono:</h3>
+            <Stack gap={3} className="justify-content-center" direction="horizontal">
+                <HeaderCard value={"70 ha"} label="Superficie" />
+                <HeaderCard value={"Bosque de hadas"} label="Vegetación principal" />
+                <HeaderCard value={"70 ton"} label="Biomasa no aérea" />
+                <HeaderCard value={"45 ton"} label="Biomasa aérea" />
+            </Stack>
             <Stack direction="horizontal" className="m-3 justify-content-center flex-wrap" gap={3}>
                 <div className="map-wrap">
                     <MapContainer center={[20.521880625401195, -104.6804948331345]} zoom={13}>
@@ -182,13 +177,7 @@ function LandElegibility() {
                         />
                         <LocationMarker position={marker} setPosition={(p) => getInfo(p)} />
                         <LayersControl position="topright" >
-                            <LayersControl.Overlay checked name="copernicus">
-                                <ImageOverlay url={picture} bounds={pictureLatLong} />
-                            </LayersControl.Overlay>
-                            <LayersControl.Overlay checked name="NDVI">
-                                <ImageOverlay url={ndvi} bounds={pictureLatLong} opacity={0.5} />
-                            </LayersControl.Overlay>
-                            <LayersControl.Overlay name="Polígono">
+                            <LayersControl.Overlay checked name="Polígonos">
                                 <GeoJSON
                                     pathOptions={{ color: 'purple' }}
                                     data={feature}
@@ -204,7 +193,7 @@ function LandElegibility() {
                 </Card>
             </Stack>
             <Stack gap={3} className="text-center justify-content-center align-items-center">
-                <LinkContainer to="/carbon-capture">
+                <LinkContainer to="/zone-picker">
                     <Button className="w-25">Continuar</Button>
                 </LinkContainer>
             </Stack>
@@ -212,4 +201,4 @@ function LandElegibility() {
     );
 }
 
-export default LandElegibility;
+export default CarbonCapture;
