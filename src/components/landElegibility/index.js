@@ -11,6 +11,7 @@ import "./index.scss";
 
 import ndvi from './ndvi.png';
 import feature from './feature.json';
+import picture from './picture.png';
 import { useState } from "react";
 
 import coniferas from './lands/bosque-coniferas.jpg';
@@ -45,6 +46,7 @@ const vegetations = [
 ]
 
 const imageLatLong = [[20.555466593136146, -104.647648655564012], [20.488294657666245, -104.713341010704994]]
+const pictureLatLong = [[20.5555520, -104.713379], [20.488236, -104.647622]]
 
 const LocationMarker = props => {
     const map = useMapEvents({
@@ -57,6 +59,18 @@ const LocationMarker = props => {
     return props.position === null ? null : (
         <Marker position={props.position} />
     )
+}
+
+const HeaderCard = props => {
+    return (
+        <Card style={{ width: '18rem' }}>
+            <Card.Body>
+                <Card.Title>{props.value}</Card.Title>
+                <Card.Text>
+                    {props.label}
+                </Card.Text>
+            </Card.Body>
+        </Card>)
 }
 
 const MetricCard = props => {
@@ -99,6 +113,7 @@ const Info = props => {
                         suffix={metric.suffix} />
                 ))}
             </Stack>
+
         </Stack>
     )
 }
@@ -130,6 +145,11 @@ function LandElegibility() {
     return (
         <Container className="m-3 text-center land-elegibility">
             <h3 className="header">Detalles de tu zona:</h3>
+            <Stack gap={3} className="justify-content-center" direction="horizontal">
+                <HeaderCard value={"70 ha"} label="Superficie" />
+                <HeaderCard value={"70 ha"} label="Superficie" />
+                <HeaderCard value={"70 ha"} label="Superficie" />
+            </Stack>
             <Stack direction="horizontal" className="m-5 justify-content-center flex-wrap" gap={3}>
                 <div className="map-wrap">
                     <MapContainer center={[20.521880625401195, -104.6804948331345]} zoom={13}>
@@ -139,8 +159,11 @@ function LandElegibility() {
                         />
                         <LocationMarker position={marker} setPosition={(p) => getInfo(p)} />
                         <LayersControl position="topright" >
+                            <LayersControl.Overlay checked name="copernicus">
+                                <ImageOverlay url={picture} bounds={pictureLatLong} />
+                            </LayersControl.Overlay>
                             <LayersControl.Overlay checked name="NDVI">
-                                <ImageOverlay url={ndvi} bounds={imageLatLong} opacity={0.3} />
+                                <ImageOverlay url={ndvi} bounds={pictureLatLong} opacity={0.5} />
                             </LayersControl.Overlay>
                             <LayersControl.Overlay name="Polígono">
                                 <GeoJSON
