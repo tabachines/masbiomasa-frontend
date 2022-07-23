@@ -53,7 +53,7 @@ function Selector(props) {
                         <p className="m-0 text-secondary">{`Arrastra hasta aquí tu archivo (.shp, .geojson)`}</p>
                     </Stack>
                 </Tab>
-                <Tab eventKey="draw" title="Traza directamente en el mapa">
+                <Tab eventKey="draw" title="Manual">
                     <Stack className="tab-content justify-content-center">
                     </Stack>
                 </Tab>

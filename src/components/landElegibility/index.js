@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Card, Spinner } from "react-bootstrap";
+import { Button, Container, Stack, Card, Spinner, Badge } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 import { MapContainer } from 'react-leaflet/MapContainer'
@@ -6,6 +6,9 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { ImageOverlay, Marker, useMapEvents } from "react-leaflet";
 import { LayersControl } from "react-leaflet";
 import { Chart as ChartJS, registerables } from 'chart.js';
+
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 import { Bar } from 'react-chartjs-2';
 
@@ -123,6 +126,23 @@ const MetricCard = props => {
     )
 }
 
+const popover = (
+    <Popover id="popover-basic">
+        <Popover.Header as="h3">NDVI</Popover.Header>
+        <Popover.Body>
+            Calculado de acuerdo con las bandas B4 (banda roja)
+            y B8 (banda infrarroja)
+        </Popover.Body>
+    </Popover>
+);
+
+const MoreInfo = () => (
+    <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+        <Badge className="info-button">?</Badge>
+    </OverlayTrigger>
+);
+
+
 const Info = props => {
     const { info, loader } = props;
 
@@ -155,7 +175,9 @@ const Info = props => {
                         suffix={metric.suffix} />
                 ))}
             </Stack>
-
+            <div className="mt-2 validar">
+                <u >Validar cobertura</u>
+            </div>
         </Stack>
     )
 }
@@ -214,7 +236,7 @@ function LandElegibility() {
 
     return (
         <Container className="text-center land-elegibility">
-            <h3 className="header">Detalles de tu zona:</h3>
+            <h3 className="header p-3">Índice de Vegetación de Diferencia Normalizada <MoreInfo/></h3>
             <Stack direction="horizontal" className="m-3 justify-content-center flex-wrap" gap={0}>
                 <div className="map-wrap">
                     <MapContainer center={[20.521880625401195, -104.6804948331345]} zoom={13}>
@@ -224,11 +246,11 @@ function LandElegibility() {
                         />
                         <LocationMarker position={marker} setPosition={(p) => getInfo(p)} />
                         <LayersControl position="topright" >
-                            <LayersControl.Overlay checked name="copernicus">
-                                <ImageOverlay url={picture} bounds={pictureLatLong} />
+                            <LayersControl.Overlay checked name="Índice de vegetación (NDVI)">
+                                <ImageOverlay url={ndvi} bounds={pictureLatLong} />
                             </LayersControl.Overlay>
-                            <LayersControl.Overlay checked name="NDVI">
-                                <ImageOverlay url={ndvi} bounds={pictureLatLong} opacity={0.5} />
+                            <LayersControl.Overlay name="Copernicus, Sentinel 2, Jun 2022">
+                                <ImageOverlay url={picture} bounds={pictureLatLong} />
                             </LayersControl.Overlay>
                         </LayersControl>
                     </MapContainer>

@@ -22,3 +22,14 @@
     height: 20px;
     margin: 0 auto;
 }
+
+.info-button {
+    font-size: 0.4em !important;
+}
+
+.validar {
+    color: rgb(127, 182, 255);
+    :hover {
+        cursor: pointer;
+    }
+}
