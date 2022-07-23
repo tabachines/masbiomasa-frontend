@@ -72,7 +72,7 @@ const data = {
     datasets: [
         {
             data: values,
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            backgroundColor: 'rgba(99, 255, 132, 0.5)',
         },
     ],
 }
@@ -182,7 +182,7 @@ function LandElegibility() {
     const [infoLoader, setInfoLoader] = useState(false);
 
     useEffect(() => {
-        const wait = 1;
+        const wait = 1000;
         for (let i = 0; i < loaderMessages.length; i++) {
             setTimeout(() => {
                 setLoader(loaderMessages[i]);
