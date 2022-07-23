@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/masbiomasa-frontend/static/css/main.4bb8eba5.css",
+    "main.js": "/masbiomasa-frontend/static/js/main.41e248bd.js",
+    "static/media/picture.png": "/masbiomasa-frontend/static/media/picture.43e85eaeb66f529c716c.png",
+    "static/media/ndvi.png": "/masbiomasa-frontend/static/media/ndvi.3b051004bd66d223288d.png",
+    "static/media/coberturas.png": "/masbiomasa-frontend/static/media/coberturas.3dc010af5ffafa40a3c2.png",
+    "static/media/bosque.jpg": "/masbiomasa-frontend/static/media/bosque.ca58708456731f5b2b9b.jpg",
+    "static/media/pastizal.jpg": "/masbiomasa-frontend/static/media/pastizal.ce3ed86576d9abce0167.jpg",
+    "static/media/agricultura.jpg": "/masbiomasa-frontend/static/media/agricultura.3b55950d4ef86bb94bfa.jpg",
+    "static/media/selvabaja.jpg": "/masbiomasa-frontend/static/media/selvabaja.e925f2a38a32fe428fbc.jpg",
+    "static/media/matorral.jpg": "/masbiomasa-frontend/static/media/matorral.8ae200038ff16d399123.jpg",
+    "static/media/co2.png": "/masbiomasa-frontend/static/media/co2.2abbe6b2b2332e2b592f.png",
+    "static/media/bosque.png": "/masbiomasa-frontend/static/media/bosque.b2545c8302c00f1741ef.png",
+    "static/media/logo.png": "/masbiomasa-frontend/static/media/logo.afab6d3c9b1eeb6ed677.png",
+    "static/media/curious.png": "/masbiomasa-frontend/static/media/curious.dbba1cac7c42ab81f7cb.png",
+    "static/media/curve.png": "/masbiomasa-frontend/static/media/curve.6046dd483af05592e54c.png",
+    "static/media/land.png": "/masbiomasa-frontend/static/media/land.2a8f6217b048aa9074c1.png",
+    "static/media/layers.png": "/masbiomasa-frontend/static/media/layers.c1517496798be29efbdf.png",
+    "static/media/spritesheet.svg": "/masbiomasa-frontend/static/media/spritesheet.a4e0eb7ad904a4858361.svg",
+    "index.html": "/masbiomasa-frontend/index.html",
+    "main.4bb8eba5.css.map": "/masbiomasa-frontend/static/css/main.4bb8eba5.css.map",
+    "main.41e248bd.js.map": "/masbiomasa-frontend/static/js/main.41e248bd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4bb8eba5.css",
+    "static/js/main.41e248bd.js"
+  ]
+}
