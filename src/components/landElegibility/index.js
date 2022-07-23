@@ -4,46 +4,97 @@ import { LinkContainer } from "react-router-bootstrap";
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { ImageOverlay, Marker, useMapEvents } from "react-leaflet";
-import { GeoJSON } from 'react-leaflet';
 import { LayersControl } from "react-leaflet";
+import { Chart as ChartJS, registerables } from 'chart.js';
+
+import { Bar } from 'react-chartjs-2';
 
 import "./index.scss";
 
 import ndvi from './ndvi.png';
-import feature from './feature.json';
 import picture from './picture.png';
 import { useEffect, useState } from "react";
 
-import coniferas from './lands/bosque-coniferas.jpg';
+import bosque from './lands/bosque.jpg';
 import pastizal from './lands/pastizal.jpg';
+import matorral from './lands/matorral.jpg';
+import agricultura from './lands/agricultura.jpg';
+import selvabaja from './lands/selvabaja.jpg';
 
-// import icons from ./icons
-import co2 from './icons/co2.png';
-import curve from './icons/curve.png';
 import land from './icons/land.png';
 import layers from './icons/layers.png';
 
+ChartJS.register(...registerables);
 
 const vegetations = [
     {
-        "key": 1,
-        "name": "Bosque de coníferas",
-        "ndvi": (0.82, 0.83),
-        "image": coniferas,
-        "co2": 144,
-        "percentage": 37,
-        "probability": 37
+        "usv": "Selva baja caducifolia",
+        "image": selvabaja,
+        "area": 1263,
+        "ndvi": 0.756,
+        "description": "Vegetación dominada por árboles de diferentes especies de hoja caduca. Se desarrolla en ambientes cálidos con lluvias en verano."
     },
     {
-        "key": 2,
-        "name": "Pastizal",
-        "ndvi": (0.34, 0.41),
+        "usv": "Bosque templado",
+        "image": bosque,
+        "area": 572,
+        "ndvi": 0.875,
+        "description": "Comunidades dominadas por árboles altos mayormente pinos y encinos acompañados por otras varias especies suelen habitar en zonas montañosas."
+    },
+    {
+        "usv": "Agricultura",
+        "image": agricultura,
+        "area": 491,
+        "ndvi": 0.221,
+        "description": "Predominio de parcelas agrícolas de riego o temporal."
+    },
+    {
+        "usv": "Matorral",
+        "image": matorral,
+        "area": 92,
+        "ndvi": 0.665,
+        "description": "Vegetación dominada por arbustos de altura inferior a 4 m, típica de las zonas áridas y semiáridas."
+    },
+    {
+        "usv": "Pastizal",
         "image": pastizal,
-        "co2": 144,
-        "percentage": 12,
-        "probability": 37
+        "area": 12,
+        "ndvi": 0.436,
+        "description": "Es una comunidad dominada por especies de gramíneas, en ocasiones acompañadas por hierbas y arbustos de diferentes familias. "
     },
 ]
+
+const labels = vegetations.map(vegetation => vegetation.usv);
+const values = vegetations.map(vegetation => vegetation.area);
+
+const data = {
+    labels,
+    datasets: [
+        {
+            data: values,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        },
+    ],
+}
+
+export const options = {
+    indexAxis: 'y',
+    elements: {
+        bar: {
+            borderWidth: 2,
+        },
+    },
+    responsive: true,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        title: {
+            display: false,
+        },
+    },
+};
+
 
 const imageLatLong = [[20.555466593136146, -104.647648655564012], [20.488294657666245, -104.713341010704994]]
 const pictureLatLong = [[20.5555520, -104.713379], [20.488236, -104.647622]]
@@ -61,23 +112,11 @@ const LocationMarker = props => {
     )
 }
 
-const HeaderCard = props => {
-    return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Body>
-                <Card.Title>{props.value}</Card.Title>
-                <Card.Text>
-                    {props.label}
-                </Card.Text>
-            </Card.Body>
-        </Card>)
-}
-
 const MetricCard = props => {
     const { label, value, icon, suffix } = props;
     return (
-        <Stack direction="horizontal" className="align-items-center w-25 align-self-center" gap={2}>
-            <img src={icon} className="icon m-0" />
+        <Stack direction="horizontal" className="align-items-center" gap={2}>
+            <img src={icon} className="icon m-0" alt={label} />
             <p className="m-0">{label}</p>
             <h5 className="m-0">{value}{suffix}</h5>
         </Stack>
@@ -89,9 +128,7 @@ const Info = props => {
 
     const metrics = [
         { "key": "ndvi", "label": "NDVI", "icon": layers, "suffix": "" },
-        { "key": "co2", "label": "CO2", "icon": co2, "suffix": " ton" },
-        { "key": "probability", "label": "Probabilidad", "icon": curve, "suffix": "%" },
-        { "key": "percentage", "label": "Porcentaje en tu zona", "icon": land, "suffix": "%" },
+        { "key": "area", "label": "Área en tu zona", "icon": land, "suffix": " ha" },
     ]
 
     if (loader) {
@@ -104,9 +141,14 @@ const Info = props => {
     }
     return (
         <Stack key={info.key} className="align-items-center">
-            <h4 className="mt-3">{info.name}</h4>
-            <img src={info.image} className="img-fluid w-50" />
-            <Stack gap={3} className="mt-3">
+            <Stack direction="horizontal">
+                <img src={info.image} className="img-fluid w-50" />
+                <div>
+                    <h5>{info.usv}</h5>
+                    <p>{info.description}</p>
+                </div>
+            </Stack>
+            <Stack direction="horizontal" gap={3} className="mt-3 justify-content-center">
                 {metrics.map(metric => (
                     <MetricCard
                         key={metric.key} label={metric.label} value={info[metric.key]} icon={metric.icon}
@@ -128,7 +170,7 @@ const getVegetation = () => {
 }
 
 const loaderMessages = [
-    "Obteniendo imágenes satelitaes ...",
+    "Obteniendo imágenes satelitales ...",
     "Calculando índice de vegetación ...",
 ]
 
@@ -140,7 +182,7 @@ function LandElegibility() {
     const [infoLoader, setInfoLoader] = useState(false);
 
     useEffect(() => {
-        const wait = 1500;
+        const wait = 1;
         for (let i = 0; i < loaderMessages.length; i++) {
             setTimeout(() => {
                 setLoader(loaderMessages[i]);
@@ -171,9 +213,9 @@ function LandElegibility() {
     }
 
     return (
-        <Container className="m-3 text-center land-elegibility">
+        <Container className="text-center land-elegibility">
             <h3 className="header">Detalles de tu zona:</h3>
-            <Stack direction="horizontal" className="m-3 justify-content-center flex-wrap" gap={3}>
+            <Stack direction="horizontal" className="m-3 justify-content-center flex-wrap" gap={0}>
                 <div className="map-wrap">
                     <MapContainer center={[20.521880625401195, -104.6804948331345]} zoom={13}>
                         <TileLayer
@@ -188,24 +230,27 @@ function LandElegibility() {
                             <LayersControl.Overlay checked name="NDVI">
                                 <ImageOverlay url={ndvi} bounds={pictureLatLong} opacity={0.5} />
                             </LayersControl.Overlay>
-                            <LayersControl.Overlay name="Polígono">
-                                <GeoJSON
-                                    pathOptions={{ color: 'purple' }}
-                                    data={feature}
-                                />
-                            </LayersControl.Overlay>
                         </LayersControl>
                     </MapContainer>
                 </div>
-                <Card className="details-card">
-                    <Stack className="justify-content-center align-items-center">
-                        <Info info={info} loader={infoLoader} />
-                    </Stack>
-                </Card>
+                <Stack className="align-items-center ">
+                    <div className="chart text-center">
+                        <Stack className="justify-content-center align-items-center">
+                            <h6>Tipo de cobertura</h6>
+                            <Bar options={options} data={data} />
+                        </Stack>
+                    </div>
+                    <Card className="details-card">
+                        <Stack className="justify-content-center align-items-center">
+                            <Info info={info} loader={infoLoader} />
+                        </Stack>
+                    </Card>
+                </Stack>
+
             </Stack>
             <Stack gap={3} className="text-center justify-content-center align-items-center">
                 <LinkContainer to="/carbon-capture">
-                    <Button className="w-25">Continuar</Button>
+                    <Button className="w-25">Estimar captura de carbono</Button>
                 </LinkContainer>
             </Stack>
         </Container>

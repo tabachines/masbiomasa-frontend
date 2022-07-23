@@ -43,7 +43,7 @@ const vegetations = [
     },
 ]
 
-const imageLatLong = [[20.555466593136146, -104.647648655564012], [20.488294657666245, -104.713341010704994]]
+// const imageLatLong = [[20.555466593136146, -104.647648655564012], [20.488294657666245, -104.713341010704994]]
 const pictureLatLong = [[20.5555520, -104.713379], [20.488236, -104.647622]]
 
 const LocationMarker = props => {
@@ -131,11 +131,15 @@ function CarbonCapture() {
     const [marker, setMarker] = useState(null);
     const [info, setInfo] = useState(null);
     const [infoLoader, setInfoLoader] = useState(false);
+    const [message, setMessage] = useState(null);
 
     useEffect(() => {
         setTimeout(() => {
             setLoader(false);
         }, 5000);
+        setTimeout(() => {
+            setMessage(true);
+        }, 6000);
     }, [])
 
     const getInfo = coords => {
@@ -158,9 +162,11 @@ function CarbonCapture() {
 
     return (
         <Container className="m-3 text-center land-elegibility">
-            <Alert key="success" variant="success">
-                Felicidades, tu zona es eligible para el uso de carbono
-            </Alert>
+            {message &&
+                <Alert key="success" variant="success">
+                    Felicidades, tu zona es eligible para el uso de carbono
+                </Alert>
+            }
             <h3 className="header">Captura de Carbono:</h3>
             <Stack gap={3} className="justify-content-center" direction="horizontal">
                 <HeaderCard value={"70 ha"} label="Superficie" />
@@ -168,7 +174,7 @@ function CarbonCapture() {
                 <HeaderCard value={"70 ton"} label="Biomasa no aérea" />
                 <HeaderCard value={"45 ton"} label="Biomasa aérea" />
             </Stack>
-            <Stack direction="horizontal" className="m-3 justify-content-center flex-wrap" gap={3}>
+            <Stack direction="horizontal" className="m-3 justify-content-center flex-wrap align-items-center" gap={3}>
                 <div className="map-wrap">
                     <MapContainer center={[20.521880625401195, -104.6804948331345]} zoom={13}>
                         <TileLayer

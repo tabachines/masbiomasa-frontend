@@ -1,8 +1,20 @@
 .land-elegibility {
-    .leaflet-container, .details-card, .map-wrap {
+
+    .leaflet-container,
+    .details-card,
+    .map-wrap {
         height: 500px;
-        width: 500px;
-    }    
+        width: 600px;
+    }
+
+    .chart,
+    .details-card {
+        height: 250px;
+    }
+
+    .chart {
+        width: 60%;
+    }
 }
 
 .icon {
