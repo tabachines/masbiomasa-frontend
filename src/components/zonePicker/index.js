@@ -20,11 +20,11 @@ import municipios from './geojsons/municipios.json';
 
 import { useState } from "react";
 
-const geojsons = {
-    "ejidos": ejidos,
-    "cuencas": cuencas,
-    "municipios": municipios
-}
+// const geojsons = {
+//     "ejidos": ejidos,
+//     "cuencas": cuencas,
+//     "municipios": municipios
+// }
 
 const infoKey = {
     "cuencas": "nom_cuenca",
@@ -134,7 +134,7 @@ function ZonePicker() {
                             />
                         </FeatureGroup>
                     }
-                    {
+                    {/* {
                         geojsonKey &&
                         <GeoJSON
                             key={geojsonKey}
@@ -142,7 +142,7 @@ function ZonePicker() {
                             pathOptions={colorOptions}
                             data={geojsons[geojsonKey]}
                         />
-                    }
+                    } */}
                 </MapContainer>
             </Container>
             {selectedZone &&
